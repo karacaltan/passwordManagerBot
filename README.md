@@ -10,7 +10,7 @@ All passwords are fictitious. So do not enter your **real** passwords!
 ### Forking
 
 It is necessary to create a custom authorization token.
-You can get one by chatting with the @BotFather. Save your token in a python file called api_key.py as a global variable.
+You can get one by chatting with the `@BotFather`. Save your token in a python file called `api_key.py` as a global variable.
 
     API_KEY = 'your api key'
 
