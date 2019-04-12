@@ -54,7 +54,7 @@ class PasswordManagerBot:
                                                            '/newpassword - save your password\n',
                                                            '/getpassword - get your password\n',
                                                            '/setpassword - set your password\n',
-                                                           '/delpassword - delete your password\n')
+                                                           '/deletepassword - delete your password\n')
                 self.bot.sendMessage(chat_id, start_text)
             elif msg['text'] == '/getpassword':
                 self.get_passwords()
@@ -75,11 +75,11 @@ class PasswordManagerBot:
             elif msg['text'] == '/newpassword':
                 self.state = 'NEWPASSWORD'
                 self.bot.sendMessage(chat_id, 'First type in the name of the site')
-            elif msg['text'] == '/delpassword':
+            elif msg['text'] == '/deletepassword':
                 self.get_passwords()
                 keyboard = self.get_keyboard()
                 if keyboard is not None:
-                    self.state = 'DELPASSWORD'
+                    self.state = 'DELETEPASSWORD'
                     self.bot.sendMessage(chat_id, 'Which password do you want to delete?', reply_markup=keyboard)
                 else:
                     self.bot.sendMessage(chat_id, 'Currently there are no passwords.')
@@ -94,14 +94,14 @@ class PasswordManagerBot:
             response = "{} {} {} {} {} {}".format('Your username for', query_data, 'is', password['username'],
                                                   'and the password is', password['password'])
             self.bot.sendMessage(from_id, response)
-        elif self.state == 'DELPASSWORD':
+        elif self.state == 'DELETEPASSWORD':
             self.query_data = query_data
             new_dict = self.delete_dict()
             self.write_to_file(new_dict)
             self.state = ''
             self.bot.sendMessage(from_id, "{} {} {}".format('Alright, the password for',
                                                             self.query_data, 'will be deleted'))
-        else:
+        elif self.state == 'SETPASSWORD':
             self.bot.sendMessage(from_id, 'Please type in the new password')
             self.query_data = str(query_data)
 
@@ -170,13 +170,14 @@ class PasswordManagerBot:
 
     def delete_dict(self):
         self.get_passwords()
+        password_list = []
         d = {}
         for i in range(len(self.password_list)):
-            for key, value in self.password_list[i].items():
-                if key == self.query_data:
-                    del self.password_list[i]
-                    break
-            d.update({"passwords": self.password_list})
+            for key in self.password_list[i].iterkeys():
+                if key != self.query_data:
+                    password_list.append(self.password_list[i])
+        self.password_list = password_list
+        d.update({"passwords": self.password_list})
         return d
 
 
