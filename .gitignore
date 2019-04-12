@@ -1,4 +1,3 @@
 *.py[cod]
 .idea/
 api_key.py
-*.json
