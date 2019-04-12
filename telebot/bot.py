@@ -21,13 +21,15 @@ class PasswordManagerBot:
         self.site_name = ''
         self.username = ''
         self.password = ''
+        self.password_set = False
 
     def on_chat_message(self, msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
-        if self.state == 'SETPASSWORD':
+        if self.state == 'SETPASSWORD' and self.password_set:
             self.bot.sendMessage(chat_id, 'Alright your password has been changed!')
             self.set_password((msg[content_type]))
             self.state = ''
+            self.password_set = False
         elif self.state == 'NEWPASSWORD':
             if self.exist(msg['text']) and not self.new_password:
                 self.bot.sendMessage(chat_id, 'This site already exist. Try another one.')
@@ -102,6 +104,7 @@ class PasswordManagerBot:
             self.bot.sendMessage(from_id, "{} {} {}".format('Alright, the password for',
                                                             self.query_data, 'will be deleted'))
         elif self.state == 'SETPASSWORD':
+            self.password_set = True
             self.bot.sendMessage(from_id, 'Please type in the new password')
             self.query_data = str(query_data)
 
