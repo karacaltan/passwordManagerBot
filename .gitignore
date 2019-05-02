@@ -2,8 +2,3 @@
 .idea/
 api_key.py
 users/
-src/Include
-src/Lib
-src/Scripts
-src/tcl
-src/*.json
