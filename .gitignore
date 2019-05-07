@@ -2,3 +2,4 @@
 .idea/
 api_key.py
 users/
+env/
