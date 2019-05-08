@@ -206,4 +206,4 @@ class PasswordManagerBot:
 if __name__ == '__main__':
     pw_manager = PasswordManagerBot()
     MessageLoop(pw_manager.bot, {'chat': pw_manager.on_chat_message_,
-                                 'callback_query': pw_manager.on_callback_query}).run_forever()
+                                 'callback_query': pw_manager.on_callback_query}).run_as_thread()
