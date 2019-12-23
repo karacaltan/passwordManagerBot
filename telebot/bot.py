@@ -2,11 +2,12 @@ __author__ = 'Altan Mehmet Karacan'
 
 import telepot
 from telepot.loop import MessageLoop
-from api_key import API_KEY
+from telebot.api_key import API_KEY
 import json
 import os
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
-from user import User
+from telebot.user import User
+import time
 
 
 class PasswordManagerBot:
@@ -166,7 +167,7 @@ class PasswordManagerBot:
         keys = []
         keyboard = None
         for i in range(len(self.current_user.password_list)):
-            for key, value in self.current_user.password_list[i].iteritems():
+            for key, value in self.current_user.password_list[i].items():
                 keys.append(str(key))
         if keys:
             inline_keyboard = []
@@ -178,7 +179,7 @@ class PasswordManagerBot:
 
     def parse_password(self):
         for i in range(len(self.current_user.password_list)):
-            for key, value in self.current_user.password_list[i].iteritems():
+            for key, value in self.current_user.password_list[i].items():
                 if self.current_user.query_data == key:
                     return value
 
@@ -195,7 +196,7 @@ class PasswordManagerBot:
         password_list = []
         d = {}
         for i in range(len(self.current_user.password_list)):
-            for key in self.current_user.password_list[i].iterkeys():
+            for key in self.current_user.password_list[i].keys():
                 if key != self.current_user.query_data:
                     password_list.append(self.current_user.password_list[i])
         self.current_user.password_list = password_list
@@ -207,3 +208,6 @@ if __name__ == '__main__':
     pw_manager = PasswordManagerBot()
     MessageLoop(pw_manager.bot, {'chat': pw_manager.on_chat_message_,
                                  'callback_query': pw_manager.on_callback_query}).run_as_thread()
+    # Keep the program running.
+    while 1:
+        time.sleep(10)
