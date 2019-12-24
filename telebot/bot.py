@@ -212,5 +212,4 @@ if __name__ == '__main__':
     print('Bot started')
     # Keep the program running.
     while 1:
-        print('Bot started')
         time.sleep(10)
