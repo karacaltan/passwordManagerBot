@@ -211,4 +211,5 @@ if __name__ == '__main__':
                                  'callback_query': pw_manager.on_callback_query}).run_as_thread()
     # Keep the program running.
     while 1:
+        print('Bot started')
         time.sleep(10)
